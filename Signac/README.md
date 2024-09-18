@@ -1,1 +1,1 @@
-### Signac tutorial
+### Signac Tutorial
