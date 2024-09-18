@@ -11,7 +11,7 @@ suppressPackageStartupMessages(library(data.table))
 
 set.seed(1234)
 
-genome_size_file <- "/n/groups/price/elizabeth/data/hg38.chrom.sizes"
+genome_size_file <- "../hg38.chrom.sizes"
 
 parser <- ArgumentParser()
 
