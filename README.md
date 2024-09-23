@@ -3,6 +3,6 @@ This repo contains tutorials for linking enhancers (ATAC peaks) to genes using s
 
 See respective folders for code implementing each peak-gene linking method.
 
-Clone the repository to your local machine using the following command: 
+Clone the repository using the following command: 
 
 `git clone https://github.com/elizabethdorans/E2G_Method_Tutorials.git`
