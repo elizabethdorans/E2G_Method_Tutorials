@@ -117,7 +117,7 @@ obj[["ATAC"]] <- CreateChromatinAssay(
   sep = c(":", "-"),
   fragments = fragment_file,
   annotation = annotation
-}
+)
     
 # Output peaks bedfile
 export.bed(peaks, sprintf("%s/macs2_peaks.bed", output_dir))  
