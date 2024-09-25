@@ -27,7 +27,7 @@ Example command:
 
 <input_file>: A .tsv file containing eak-peak co-accessibility predictions.\
 <macs2_peaks_bedfile>: A bedfile with ATAC peaks (output of `../seurat_object_preprocessing.R`).\
-<promoter_peaks_file>: [DEFAULT ../TSS_plusminus500bp.bed] A bedfile specifying gene promoter regions (columns chr, start, end, gene). The default file specifies the regions +/- 500 bp from the gene TSS specified in ../CollapsedGeneBounds.hg38.bed.
+<promoter_bedfile>: [DEFAULT ../TSS_plusminus500bp.bed] A bedfile specifying gene promoter regions (columns chr, start, end, gene). The default file contains the regions +/- 500 bp from the gene TSS specified in ../CollapsedGeneBounds.hg38.bed.
                     
 Outputs: 
 
