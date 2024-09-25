@@ -12,10 +12,10 @@ set.seed(1234)
 parser <- ArgumentParser()
 
 parser$add_argument("--seurat_object",
-    help="Path to Seurat object with RNA, ATAC, and peak assays")
+    help="[REQUIRED] Path to Seurat object with RNA, ATAC, and peak assays")
 parser$add_argument("--cicero_output_dir",  default = ".",
     help = "Path to directory for output files")
-parser$add_argument("--genome_size_file",  default = "hg38.chrom.sizes",
+parser$add_argument("--genome_size_file",  default = "./hg38.chrom.sizes",
     help = "Path to file with chromosome sizes")
 
 args <- parser$parse_args()

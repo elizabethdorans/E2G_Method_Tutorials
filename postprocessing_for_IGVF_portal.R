@@ -7,19 +7,19 @@ library(optparse)
 # create arguments list
 option_list = list(
   make_option(c("-i", "--input_file"), type = "character", default = NULL,
-              help = "Path to transcripts input file", metavar = "character"),
+              help = "[REQUIRED] Path to transcripts input file", metavar = "character"),
   make_option(c("-o", "--output_file"), type = "character", default = NULL,
-              help = "Path to output file", metavar = "character"),
+              help = "[REQUIRED] Path to output file", metavar = "character"),
   make_option(c("-g", "--genes_file"), type = "character", default = NULL,
-              help = "Path to file containing gene information", metavar = "character"),
+              help = "[REQUIRED] Path to file containing gene information", metavar = "character"),
   make_option(c("-c", "--cell_type"), type = "character", default = NULL,
-              help = "Cell type", metavar = "character"),
+              help = "[REQUIRED] Cell type", metavar = "character"),
   make_option(c("-m", "--method"), type = "character", default = NULL,
-              help = "E2G method that produced the predictions", metavar = "character"),
+              help = "[REQUIRED] E2G method that produced the predictions", metavar = "character"),
   make_option(c("-v", "--version"), type = "character", default = NULL,
-              help = "E2G method version", metavar = "character"),
+              help = "[REQUIRED] E2G method version", metavar = "character"),
   make_option(c("-t", "--threshold"), type = "character", default = NULL,
-              help = "Used score threshold if applicable", metavar = "character") 
+              help = "[OPTIONAL] Used score threshold if applicable", metavar = "character") 
 )
 
 # parse arguments
@@ -35,7 +35,7 @@ check_required_args <- function(arg, opt, opt_parser) {
 }
 
 # check that all required parameters are provided
-required_args <- c("input_file", "output_file", "cell_type", "method", "version")
+required_args <- c("input_file", "output_file", "genes_file", "cell_type", "method", "version")
 for (i in required_args) {
   check_required_args(i, opt = opt, opt_parser = opt_parser)
 }
