@@ -15,8 +15,7 @@ Example command:
 
 `Rscript seurat_object_preprocessing.R --rna_matrix <rna_matrix.mtx> --rna_matrix_barcodes <rna_matrix_barcodes> --rna_matrix_genes <rna_matrix_genes> --atac_fragments <atac_fragments.tsv.gz> --filtered_barcodes <filtered_barcodes> --output_dir <output_dir>`
 
-<rna_matrix>: A .mtx file containing a cell x gene count matrix.
-
+<rna_matrix>: A .mtx file containing a cell x gene count matrix.\
 <rna_matrix_barcodes>: A .txt file containing cell barcodes (one per line) corresponding to <rna_matrix>.
 <rna_matrix_genes>: A .txt file containing gene names (one per line) corresponding to <rna_matrix>.
 <atac_fragments>: ATAC fragment file (.tbi file with same file basename must be in the same folder).
