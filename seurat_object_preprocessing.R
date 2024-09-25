@@ -24,6 +24,8 @@ parser$add_argument("--atac_fragments",
                     help = "ATAC fragment file (.tsv.gz) (tsv.gz.tbi file must be in same directory)")
 parser$add_argument("--filtered_barcodes", 
                     help = "File with subset of cell barcodes (in column 'barcode') to include in Seurat object (can contain additional metadata columns) [.txt]")
+parser$add_argument("--macs2_folder",
+                    help = "Path to macs for calling peaks")
 parser$add_argument("--output_dir",
                     help = "Path to directory for output files")
 
@@ -34,6 +36,7 @@ rna_matrix_barcodes = args$rna_matrix_barcodes
 rna_matrix_genes = args$rna_matrix_genes
 atac_fragments = args$atac_fragments
 filtered_barcodes = args$filtered_barcodes
+macs2_folder = args$macs2_folder
 output_dir = args$output_dir
 
 # Create output directory if needed
@@ -47,7 +50,7 @@ annotation <- GetGRangesFromEnsDb(ensdb = EnsDb.Hsapiens.v86)
 seqlevelsStyle(annotation) <- "UCSC"
 genome(annotation) <- "hg38"
 
-# Load RNA count matrix into Seurat object
+# Read in RNA count matrix
 counts <- Matrix::readMM(rna_matrix)
 rownames(counts) <- read.table(rna_matrix_barcodes)$V1
 colnames(counts) <- read.table(rna_matrix_genes)$V1
@@ -55,6 +58,7 @@ colnames(counts) <- read.table(rna_matrix_genes)$V1
 # Transpose to a gene x cell matrix
 counts <- t(counts)
 
+# Load RNA count matrix into Seurat object
 obj <- CreateSeuratObject(
   counts = counts,
   assay = "RNA"
@@ -66,11 +70,14 @@ obj@meta.data$barcode = rownames(obj@meta.data)
 # Read in filtered cell barcodes and subset Seurat object (if applicable)
 if (!is.null(filtered_barcodes)) {
     meta <- read.table(filtered_barcodes, sep= "\t", header = TRUE)
-    meta <- meta[complete.cases(meta),]
+    rownames(meta) = meta$barcode
+    if (length(meta) > 1) {
+        meta <- data.frame(meta[complete.cases(meta),])
+    }
     
     # Subset Seurat object to filtered barcodes
     focal_cells = meta$barcode
-    rownames(meta) = meta$barcode
+    
     obj <- subset(obj, subset = barcode %in% focal_cells)
 
     # If file contains additional metadata columns, add metadata to Seurat object
@@ -84,15 +91,17 @@ if (!is.null(filtered_barcodes)) {
     focal_cells = colnames(obj)
 }
 
+sprintf("%s cells retained in Seurat object", length(focal_cells))
+
 # Create Seurat fragment object from ATAC fragment file
 frags <- CreateFragmentObject(
-  fragment_file,
+  atac_fragments,
   cells = focal_cells
 )
 
 # Call and refine peaks (using MACS2)
 peaks <- CallPeaks(frags, 
-                   macs2.path = ###
+                   macs2.path = macs2_folder
                   )
 peaks <- keepStandardChromosomes(peaks, pruning.mode = "coarse")
 peaks <- subsetByOverlaps(x = peaks, ranges = blacklist_hg38_unified, invert = TRUE)
@@ -107,7 +116,7 @@ macs2_counts <- FeatureMatrix(
 # Integrate peaks into Seurat object
 obj[["peaks"]] <- CreateChromatinAssay(
   counts = macs2_counts,
-  fragments = fragment_file,
+  fragments = atac_fragments,
   annotation = annotation
 )
 
@@ -115,7 +124,7 @@ obj[["peaks"]] <- CreateChromatinAssay(
 obj[["ATAC"]] <- CreateChromatinAssay(
   counts = macs2_counts,
   sep = c(":", "-"),
-  fragments = fragment_file,
+  fragments = atac_fragments,
   annotation = annotation
 )
     
