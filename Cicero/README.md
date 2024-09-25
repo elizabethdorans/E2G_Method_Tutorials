@@ -2,7 +2,7 @@
 
 This repo contains code for peak-gene linking using Cicero (Pliner 2018 Mol Cell).
 
-## Step 1: Run Cicero co-accessibility.
+## Step 1: Run Cicero co-accessibility
 
 The script `run_Cicero.R` takes as input an assembled Seurat object and computes Cicero peak-peak co-accessibilities.
 
@@ -19,7 +19,7 @@ Outputs:
 
 ## Step 2: Postprocessing into peak-gene links
 
-The script `run_Cicero.R` takes as input an assembled Seurat object and computes Cicero peak-peak co-accessibilities.
+The script `Cicero_postprocessing.sh` takes as input Cicero peak-peak co-accessibilities, ATAC peaks, and promoters overlapping ATAC peaks, and generates peak-gene link predictions.
 
 Example command: 
 
