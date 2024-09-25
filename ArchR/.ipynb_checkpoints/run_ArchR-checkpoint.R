@@ -13,9 +13,9 @@ set.seed(1234)
 parser <- ArgumentParser()
 
 parser$add_argument("--seurat_object",
-    help="Path to Seurat object with RNA, ATAC, and peak assays")
+    help="[REQUIRED] Path to Seurat object with RNA, ATAC, and peak assays")
 parser$add_argument("--atac_fragments",
-                    help = "ATAC fragment file (.tsv.gz) (tsv.gz.tbi file must be in same directory)")
+                    help = "[REQUIRED] ATAC fragment file (.tsv.gz) (tsv.gz.tbi file must be in same directory)")
 parser$add_argument("--archr_output_dir",  default = ".",
     help = "Path to directory for output files")
 
