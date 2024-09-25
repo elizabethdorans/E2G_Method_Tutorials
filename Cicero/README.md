@@ -17,4 +17,20 @@ Outputs:
 
 1) Peak-peak co-accessibility predictions at <cicero_output_dir>/cicero_connections.tsv
 
-## Step 2: Postprocessing for IGVF portal (see main E2G_Method_Tutorials folder)
+## Step 2: Postprocessing into peak-gene links
+
+The script `run_Cicero.R` takes as input an assembled Seurat object and computes Cicero peak-peak co-accessibilities.
+
+Example command: 
+
+`bash Cicero_postprocessing.sh <input_file> <macs2_peaks_bedfile>`
+
+<input_file>: A .tsv file containing eak-peak co-accessibility predictions.\
+<macs2_peaks_bedfile>: A bedfile with ATAC peaks (output of `../seurat_object_preprocessing.R`).\
+<promoter_peaks_file>: [DEFAULT ../TSS_plusminus500bp.bed] A bedfile specifying gene promoter regions (columns chr, start, end, gene). The default file specifies the regions +/- 500 bp from the gene TSS specified in ../CollapsedGeneBounds.hg38.bed.
+                    
+Outputs: 
+
+1) Peak-gene link predictions at cicero_peak_gene_links.tsv (in the same folder as <input_file>).
+
+## Step 3: Postprocessing for IGVF portal (see main E2G_Method_Tutorials folder)
