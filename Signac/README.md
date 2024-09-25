@@ -1,9 +1,4 @@
-parser$add_argument("--seurat_object",
-    help="[REQUIRED] Path to Seurat object with RNA, ATAC, and peak assays [.rds]")
-parser$add_argument("--signac_output_dir", default = ".",
-                    help = "Path to directory for output files")
-
-# Signac
+# Signac tutorial
 
 This repo contains code for peak-gene linking using Cicero (Pliner 2018 Mol Cell).
 
@@ -43,14 +38,12 @@ The script `Signac_postprocessing.sh` takes as input a folder containing per-chr
 
 Example command: 
 
-`bash Signac_postprocessing.sh <input_file> <macs2_peaks_bedfile>`
+`Rscript Signac_postprocessing.R --input_folder <input_folder>`
 
-<input_file>: A .tsv file containing eak-peak co-accessibility predictions.\
-<macs2_peaks_bedfile>: A bedfile with ATAC peaks (output of `../seurat_object_preprocessing.R`).\
-<promoter_bedfile>: [DEFAULT ../TSS_plusminus500bp.bed] A bedfile specifying gene promoter regions (columns chr, start, end, gene). The default file contains the regions +/- 500 bp from the gene TSS specified in ../CollapsedGeneBounds.hg38.bed.
+<input_folder>: Path to a folder containing per-chromosome Signac peak-gene link predictions in the format chr*.tsv.
                     
 Outputs: 
 
-1) Peak-gene link predictions at cicero_peak_gene_links.tsv (in the same folder as <input_file>).
+1) Concatenated Signac peak-gene link predictions at <input_folder>/signac_peak_gene_links.tsv.
 
 ## Step 3: Postprocessing for IGVF portal (see main E2G_Method_Tutorials folder)
