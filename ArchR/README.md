@@ -2,7 +2,7 @@
 
 This repo contains code for peak-gene linking using ArchR (Granja 2021 Nature Genetics).
 
-## Step 1: Run ArchR peak-gene linking.
+## Step 1: Run ArchR peak-gene linking
 
 The script `run_ArchR.R` takes as input ATAC fragment files, an assembled Seurat object, and runs ArchR peak2gene.
 
