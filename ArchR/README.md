@@ -10,8 +10,8 @@ Example command:
 
 `Rscript run_ArchR.R --seurat_object <> --atac_fragments <> --archr_output_dir <>`
 
-<seurat_object>: A Seurat object containing ATAC, RNA, and peak data (output of `../seurat_object_preprocessing.R`). Must also contain a 'barcode' column in metadata.
-<atac_fragments>: ATAC fragment file (.tbi file with same file basename must be in the same folder).
+<seurat_object>: A Seurat object containing ATAC, RNA, and peak data (output of `../seurat_object_preprocessing.R`).\
+<atac_fragments>: ATAC fragment file (.tbi file with same file basename must be in the same folder).\
 <archr_output_dir>: Path to folder where outputs will be saved.
                     
 Outputs: 
