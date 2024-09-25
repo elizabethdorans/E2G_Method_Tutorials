@@ -1,4 +1,4 @@
-# Signac tutorial
+# Signac Tutorial
 
 This repo contains code for peak-gene linking using Cicero (Pliner 2018 Mol Cell).
 
