@@ -1,0 +1,82 @@
+### Peak-gene linking method software package versions used:
+
+Signac_1.10.0
+cicero_1.3.9 (monocle3_1.3.1)
+ArchR_1.0.2
+
+### Software packages used to test all scripts:
+
+## Seurat object preprocessing (seurat_object_preprocessing.R)
+
+Signac_1.10.0
+Seurat_4.3.0.1
+EnsDb.Hsapiens.v86_2.99.0
+BSgenome.Hsapiens.UCSC.hg38_1.4.5
+Matrix_1.5-4
+purrr_1.0.1
+GenomicRanges_1.50.2
+SeuratDisk_0.0.0.9020
+data.table_1.14.8
+argparse_2.2.2
+
+## Signac
+
+# Preprocessing data for Signac (Signac_preprocessing.R)
+
+Signac_1.10.0
+Seurat_4.3.0.1
+BSgenome.Hsapiens.UCSC.hg38_1.4.5
+argparse_2.2.2
+
+# Running Signac (run_Signac_single_chromosome.R)
+
+Signac_1.10.0
+Seurat_4.3.0.1
+argparse_2.2.2
+purrr_1.0.1
+GenomicRanges_1.50.2
+stringr_1.5.0
+data.table_1.14.8
+
+# Postprocessing Signac predictions (Signac_postprocessing.R)
+
+data.table_1.14.8
+argparse_2.2.2
+stringr_1.5.0
+dplyr_1.1.1 
+
+## Cicero 
+
+# Running Cicero (run_Cicero.R)
+
+Signac_1.10.0
+Seurat_4.3.0.1
+Matrix_1.5-4
+data.table_1.14.8
+argparse_2.2.2
+monocle3_1.3.1
+cicero_1.3.9
+
+# Postprocessing Cicero (Cicero_postprocessing.R)
+
+data.table_1.14.8
+argparse_2.2.2
+dplyr_1.1.1
+
+## ArchR
+
+# Running ArchR (run_ArchR.R)
+
+ArchR_1.0.2
+argparse_2.2.2
+Signac_1.10.0
+Seurat_4.3.0.1
+SingleCellExperiment_1.20.1
+plyranges_1.18.0
+
+## Postprocessing for IGVF portal (postprocessing_for_IGVF_portal.R)
+
+optparse_1.7.3
+data.table_1.14.8
+dplyr_1.1.1 
+stringr_1.5.0

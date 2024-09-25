@@ -8,8 +8,8 @@ set.seed(1234)
 parser <- ArgumentParser()
 
 parser$add_argument("--seurat_object",
-    help="Path to Seurat object with RNA, ATAC, and peak assays [.rds]")
-parser$add_argument("--signac_output_dir",
+    help="[REQUIRED] Path to Seurat object with RNA, ATAC, and peak assays [.rds]")
+parser$add_argument("--signac_output_dir", default = ".",
                     help = "Path to directory for output files")
 
 args <- parser$parse_args()

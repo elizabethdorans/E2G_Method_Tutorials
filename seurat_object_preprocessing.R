@@ -15,18 +15,18 @@ set.seed(1234)
 parser <- ArgumentParser()
 
 parser$add_argument("--rna_matrix", 
-                    help = "File with cell x gene RNA count matrix [.mtx]")
+                    help = "[REQUIRED] File with cell x gene RNA count matrix [.mtx]")
 parser$add_argument("--rna_matrix_barcodes",
-                    help = "File with cell barcodes corresponding to row names of RNA count matrix [.txt]")
+                    help = "[REQUIRED] File with cell barcodes corresponding to row names of RNA count matrix [.txt]")
 parser$add_argument("--rna_matrix_genes",
-                    help = "File with gene names corresponding to column names RNA count matrix [.txt]")
+                    help = "[REQUIRED] File with gene names corresponding to column names RNA count matrix [.txt]")
 parser$add_argument("--atac_fragments",
-                    help = "ATAC fragment file (.tsv.gz) (tsv.gz.tbi file must be in same directory)")
+                    help = "[REQUIRED] ATAC fragment file (.tsv.gz) (tsv.gz.tbi file must be in same directory)")
 parser$add_argument("--filtered_barcodes", 
-                    help = "File with subset of cell barcodes (in column 'barcode') to include in Seurat object (can contain additional metadata columns) [.txt]")
-parser$add_argument("--macs2_folder",
+                    help = "[OPTIONAL] File with subset of cell barcodes (in column 'barcode') to include in Seurat object (can contain additional metadata columns) [.txt]")
+parser$add_argument("--macs2_folder", default = "./macs2"
                     help = "Path to macs for calling peaks")
-parser$add_argument("--output_dir",
+parser$add_argument("--output_dir", default = "."
                     help = "Path to directory for output files")
 
 args <- parser$parse_args()
@@ -71,8 +71,9 @@ obj@meta.data$barcode = rownames(obj@meta.data)
 if (!is.null(filtered_barcodes)) {
     meta <- read.table(filtered_barcodes, sep= "\t", header = TRUE)
     rownames(meta) = meta$barcode
+    
     if (length(meta) > 1) {
-        meta <- data.frame(meta[complete.cases(meta),])
+        meta <- meta[complete.cases(meta),]
     }
     
     # Subset Seurat object to filtered barcodes

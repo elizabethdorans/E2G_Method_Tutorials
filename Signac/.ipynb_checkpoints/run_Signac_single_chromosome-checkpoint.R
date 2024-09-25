@@ -11,9 +11,9 @@ set.seed(1234)
 parser <- ArgumentParser()
 
 parser$add_argument("chromosome",
-    help="chromosome whose genes are being tested, i.e. 1")
+    help="[REQUIRED] chromosome whose genes are being tested, i.e. 1")
 parser$add_argument("--seurat_object",
-    help="Path to Seurat object preprocessed for Signac peak-gene linking (see Signac_preprocessing.R) [.rds]")
+    help="[REQUIRED] Path to Seurat object preprocessed for Signac peak-gene linking (see Signac_preprocessing.R) [.rds]")
 parser$add_argument("--signac_output_dir", default = ".",
     help = "Path to directory for output files")
 

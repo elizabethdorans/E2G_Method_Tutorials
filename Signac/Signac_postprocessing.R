@@ -6,7 +6,7 @@ suppressPackageStartupMessages(library(dplyr))
 parser <- ArgumentParser()
 
 parser$add_argument("--input_folder",
-    help="Path to folder containing Signac peak-gene link predictions for each chromosome")
+    help="[REQUIRED] Path to folder containing Signac peak-gene link predictions for each chromosome")
 
 args <- parser$parse_args()
 
