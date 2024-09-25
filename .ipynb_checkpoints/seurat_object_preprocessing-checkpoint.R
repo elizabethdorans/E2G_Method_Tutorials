@@ -24,9 +24,9 @@ parser$add_argument("--atac_fragments",
                     help = "[REQUIRED] ATAC fragment file (.tsv.gz) (tsv.gz.tbi file must be in same directory)")
 parser$add_argument("--filtered_barcodes", 
                     help = "[OPTIONAL] File with subset of cell barcodes (in column 'barcode') to include in Seurat object (can contain additional metadata columns) [.txt]")
-parser$add_argument("--macs2_folder", default = "./macs2"
-                    help = "Path to macs for calling peaks")
-parser$add_argument("--output_dir", default = "."
+parser$add_argument("--macs2_folder", default = "./macs2",
+                    help = "Path to macs2 executable for peak calling")
+parser$add_argument("--output_dir", default = ".",
                     help = "Path to directory for output files")
 
 args <- parser$parse_args()
