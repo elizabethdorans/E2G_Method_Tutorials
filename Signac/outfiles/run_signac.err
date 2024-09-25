@@ -1,4 +1,0 @@
-Testing 558 genes and 145341 peaks
-'as(<dgCMatrix>, "dgTMatrix")' is deprecated.
-Use 'as(., "TsparseMatrix")' instead.
-See help("Deprecated") and help("Matrix-deprecated").

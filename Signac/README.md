@@ -1,12 +1,13 @@
 # Signac Tutorial
 
-This repo contains code for peak-gene linking using Cicero (Pliner 2018 Mol Cell).
+This repo contains code for peak-gene linking using Cicero (Pliner 2018 Mol Cell). Based on tutorial code at https://stuartlab.org/signac/articles/pbmc_multiomic.html.
 
 ## Step 1: Preprocessing for Signac
 
 The script `Signac_preprocessing.R` takes as input an assembled Seurat object and runs preprocessing steps needed for Signac peak-gene linking.
 
-Example command: 
+
+Example command: [~1 hour, ~30G]
 
 `Rscript Signac_preprocessing.R --seurat_object <seurat_object> --signac_output_dir <signac_output_dir>`
 
@@ -20,6 +21,7 @@ Outputs:
 ## Step 2: Running Signac
 
 The script `run_Signac.sh` takes as input a pre-processed Seurat object and runs Signac peak-gene linking.
+**ATTENTION: Lines 12 and 22 contain 'sbatch' commmands to submit batch jobs to Slurm on a remote cluster. Edit these lines as appropriate.**
 
 Example command: 
 

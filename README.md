@@ -1,17 +1,22 @@
 # E2G Method Tutorials
+
 This repo contains tutorials for linking enhancers (ATAC peaks) to genes using single-cell RNA + ATAC multiome data. Data preprocessing and peak-gene linking scripts are included for the following methods: Signac (Stuart 2021 Nature Methods), Cicero (Pliner 2018 Mol Cell), ArchR (Granja 2021 Nature Genetics). A tutorial for SCENT (Sakaue 2024 Nature Genetics) is forthcoming.
 
 Clone the repository using the following command: 
 
 `git clone https://github.com/elizabethdorans/E2G_Method_Tutorials.git`
 
-See below (and method-specific subfolders) for steps to run single-cell peak-gene linking methods on single-cell multiome data:
+See below (and method-specific subfolders) for steps to run single-cell peak-gene linking methods on single-cell multiome data.
+
+Submit jobs to your own remote cluster (e.g. using [sbatch](https://slurm.schedmd.com/sbatch.html)):
+`cmd="\<command>"; sbatch --time=<time> --mem=<mem> ... --wrap="$cmd"`
+Approximate memory and time requirements are given for computationally intensive tasks, but these will need to be adjusted for different data sets.
 
 ## Step 0: Pre-process single-cell multiome data.
 
 The script `seurat_object_preprocessing.R` takes as input single-cell multiome data files (RNA count matrix, ATAC fragment files, etc.), assembles a Seurat object, and calls ATAC peaks.
 
-Example command: 
+Example command: [~1 hour, ~20G]
 
 `Rscript seurat_object_preprocessing.R --rna_matrix <rna_matrix.mtx> --rna_matrix_barcodes <rna_matrix_barcodes> --rna_matrix_genes <rna_matrix_genes> --atac_fragments <atac_fragments.tsv.gz> --filtered_barcodes <filtered_barcodes> --output_dir <output_dir>`
 
