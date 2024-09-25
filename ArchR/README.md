@@ -1,4 +1,4 @@
-### ArchR Tutorial
+# ArchR Tutorial
 
 This repo contains code for peak-gene linking using ArchR (Granja 2021 Nature Genetics).
 
