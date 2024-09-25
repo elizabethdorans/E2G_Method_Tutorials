@@ -43,8 +43,8 @@ Example command:
 <output_file>: A .tsv file containing containing E2G method predictions restricted to gene universe and reformatted for IGVF portal.\
 <genes_file>: [DEFAULT CollapsedGeneBounds.hg38.bed] Gene universe file (inclues gene symbol in 'name' column and Ensembl ID in 'Ensembl_ID' column). The default gene universe file CollapsedGeneBounds.hg38.bed was obtained from https://github.com/EngreitzLab/CRISPR_comparison/blob/main/resources/genome_annotations/CollapsedGeneBounds.hg38.bed.\
 <cell_type>: Cell type used to generate predictions (for 'CellType' column).\
-<method>: E2G method used to generate predictions (for header).\
-<version>: Version of E2G method used to generate predictions (for header).
+\<method>: E2G method used to generate predictions (for header).\
+\<version>: Version of E2G method used to generate predictions (for header).
                     
 Outputs: 
 
