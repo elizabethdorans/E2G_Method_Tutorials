@@ -20,7 +20,7 @@ Example command:
 <rna_matrix_genes>: A .txt file containing gene names (one per line) corresponding to <rna_matrix>.\
 <atac_fragments>: ATAC fragment file (.tbi file with same file basename must be in the same folder).\
 <filtered_barcodes>: [OPTIONAL] File with subset of cell barcodes (in column labeled 'barcode') and, optionally, additional metadata columns. The Seurat object will only include these cells.\
-<output_dir>: Path to folder where outputs will be saved.\
+<output_dir>: Path to folder where outputs will be saved.
                     
 Outputs: 
 
