@@ -28,22 +28,22 @@ The script `run_Signac.sh` takes as input a pre-processed Seurat object and runs
 
 Example command: 
 
-`bash run_Signac.sh --seurat_object <seurat_object> --signac_output_dir <signac_output_dir>`
+`bash run_Signac.sh <seurat_object> <signac_output_dir>`
 
-<seurat_object>: A Seurat object containing ATAC, RNA, and peak data (output of `../seurat_object_preprocessing.R`).\
-<signac_output_dir>: Path to folder where outputs will be saved.
+<seurat_object>: A preprocessed Seurat object (output of `Signac_preprocessing.R`).\
+<signac_output_dir>: Path to folder where outputs will be saved (one file per chromosome).
                     
 Outputs: 
 
-1) Processed Seurat object at <signac_output_dir>/seurat_object_signac_preprocessed.rds
+1) Signac peak-gene link predictions (one file per chromosome) in <signac_output_dir>/chr*.tsv
 
-Postprocessing per-chromosome predictions
+## Step 3: Postprocessing per-chromosome predictions
 
-The script `Signac_postprocessing.sh` takes as input Signac peak-gene link predictions generates peak-gene link predictions.
+The script `Signac_postprocessing.sh` takes as input a folder containing per-chromosome Signac peak-gene link predictions and generates a single file of peak-gene link predictions.
 
 Example command: 
 
-`bash Cicero_postprocessing.sh <input_file> <macs2_peaks_bedfile>`
+`bash Signac_postprocessing.sh <input_file> <macs2_peaks_bedfile>`
 
 <input_file>: A .tsv file containing eak-peak co-accessibility predictions.\
 <macs2_peaks_bedfile>: A bedfile with ATAC peaks (output of `../seurat_object_preprocessing.R`).\
