@@ -24,7 +24,7 @@ parser$add_argument("--atac_fragments",
                     help = "ATAC fragment file (.tsv.gz) (tsv.gz.tbi file must be in same directory)")
 parser$add_argument("--filtered_barcodes", 
                     help = "File with subset of cell barcodes (in column 'barcode') to include in Seurat object (can contain additional metadata columns) [.txt]")
-parser$add_argument("--macs2_folder",
+parser$add_argument("--macs2_folder", default = "./macs2",
                     help = "Path to macs for calling peaks")
 parser$add_argument("--output_dir",
                     help = "Path to directory for output files")
@@ -70,11 +70,14 @@ obj@meta.data$barcode = rownames(obj@meta.data)
 # Read in filtered cell barcodes and subset Seurat object (if applicable)
 if (!is.null(filtered_barcodes)) {
     meta <- read.table(filtered_barcodes, sep= "\t", header = TRUE)
-    meta <- meta[complete.cases(meta),]
+    rownames(meta) = meta$barcode
+    if (length(meta) > 1) {
+        meta <- data.frame(meta[complete.cases(meta),])
+    }
     
     # Subset Seurat object to filtered barcodes
     focal_cells = meta$barcode
-    rownames(meta) = meta$barcode
+    
     obj <- subset(obj, subset = barcode %in% focal_cells)
 
     # If file contains additional metadata columns, add metadata to Seurat object
