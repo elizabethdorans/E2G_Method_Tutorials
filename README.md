@@ -6,6 +6,10 @@ Clone the repository using the following command:
 
 `git clone https://github.com/elizabethdorans/E2G_Method_Tutorials.git`
 
+Download required packages by running the following command from an R session in the project folder:
+
+`renv::restore()`
+
 See below (and method-specific subfolders) for steps to run single-cell peak-gene linking methods on single-cell multiome data.
 
 Submit jobs to your own remote cluster (e.g. using [sbatch](https://slurm.schedmd.com/sbatch.html)):
