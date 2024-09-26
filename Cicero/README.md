@@ -6,6 +6,8 @@ This repo contains code for peak-gene linking using Cicero (Pliner 2018 Mol Cell
 
 The script `run_Cicero.R` takes as input an assembled Seurat object and computes Cicero peak-peak co-accessibilities.
 
+**NOTE: In order to use the included `hg38.chrom.sizes` file, run `run_Cicero.R` from this folder (`Cicero`) or specify the path to this file from your location as an argument to `--genome_size_file`.**
+
 Example command: [~8 hours, ~30G]
 
 `Rscript run_Cicero.R --seurat_object <seurat_object> --cicero_output_dir <cicero_output_dir>`

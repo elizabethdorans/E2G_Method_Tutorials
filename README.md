@@ -20,6 +20,8 @@ Approximate memory and time requirements are given for computationally intensive
 
 The script `seurat_object_preprocessing.R` takes as input single-cell multiome data files (RNA count matrix, ATAC fragment files, etc.), assembles a Seurat object, and calls ATAC peaks.
 
+**NOTE: In order to use the included executable `macs2`, run `seurat_object_preprocessing.R` from this folder (`E2G_Method_Tutorials`) or specify the path to this file from your location as an argument to `--macs2_folder`.**
+
 Example command: [~1 hour, ~20G]
 
 `Rscript seurat_object_preprocessing.R --rna_matrix <rna_matrix.mtx> --rna_matrix_barcodes <rna_matrix_barcodes> --rna_matrix_genes <rna_matrix_genes> --atac_fragments <atac_fragments.tsv.gz> --filtered_barcodes <filtered_barcodes> --output_dir <output_dir>`
@@ -43,6 +45,8 @@ See README.md files in method-specific folders for further steps in running each
 ## Post-processing for IGVF portal:
 
 The script `postprocessing_for_IGVF_portal.R` takes as input peak-gene link predictions, restricts to a given gene universe, and produces a file with format appropriate for the IGVF portal.
+
+**NOTE: In order to use the included gene universe file `CollapsedGeneBounds.hg38.bed`, run `postprocessing_for_IGVF_portal.R ` from this folder (`E2G_Method_Tutorials`) or specify the path to this file from your location as an argument to `--genes_file`.**
 
 Example command: 
 
