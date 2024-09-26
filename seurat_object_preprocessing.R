@@ -23,17 +23,10 @@ parser$add_argument("--rna_matrix_genes",
 parser$add_argument("--atac_fragments",
                     help = "[REQUIRED] ATAC fragment file (.tsv.gz) (tsv.gz.tbi file must be in same directory)")
 parser$add_argument("--filtered_barcodes", 
-<<<<<<< HEAD
                     help = "File with subset of cell barcodes (in column 'barcode') to include in Seurat object (can contain additional metadata columns) [.txt]")
 parser$add_argument("--macs2_folder", default = "./macs2",
                     help = "Path to macs for calling peaks")
 parser$add_argument("--output_dir",
-=======
-                    help = "[OPTIONAL] File with subset of cell barcodes (in column 'barcode') to include in Seurat object (can contain additional metadata columns) [.txt]")
-parser$add_argument("--macs2_folder", default = "./macs2",
-                    help = "Path to macs2 executable for peak calling")
-parser$add_argument("--output_dir", default = ".",
->>>>>>> 3c75d3e7c9c74458e36c7aa5b095c0372ac29208
                     help = "Path to directory for output files")
 
 args <- parser$parse_args()
