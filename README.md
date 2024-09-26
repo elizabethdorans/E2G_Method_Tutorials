@@ -6,7 +6,7 @@ Clone the repository using the following command:
 
 `git clone https://github.com/elizabethdorans/E2G_Method_Tutorials.git`
 
-Download required packages by running the following command from an R session in the project folder (see more information about renv [here](https://rstudio.github.io/renv/articles/renv.html):
+Download required packages by running the following command from an R session in the project folder (see more information about renv [here](https://rstudio.github.io/renv/articles/renv.html)):
 
 `renv::restore()`
 
