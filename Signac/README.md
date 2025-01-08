@@ -1,6 +1,6 @@
 # Signac Tutorial
 
-This repo contains code for peak-gene linking using Cicero (Pliner 2018 Mol Cell). Based on tutorial code at https://stuartlab.org/signac/articles/pbmc_multiomic.html.
+This folder contains code for peak-gene linking using Signac (Stuart 2021 Nature Methods). Based on tutorial code at https://stuartlab.org/signac/articles/pbmc_multiomic.html.
 
 ## Step 1: Preprocessing for Signac
 
