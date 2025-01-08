@@ -1,6 +1,6 @@
 # ArchR Tutorial
 
-This repo contains code for peak-gene linking using ArchR (Granja 2021 Nature Genetics). Also see tutorial at https://github.com/GreenleafLab/ArchR_Website/blob/ui_updates/bookdown/21_MultiomicDataAnalysis.Rmd.
+This folder contains code for peak-gene linking using ArchR (Granja 2021 Nature Genetics). Also see tutorial at https://github.com/GreenleafLab/ArchR_Website/blob/ui_updates/bookdown/21_MultiomicDataAnalysis.Rmd.
 
 ## Step 1: Run ArchR peak-gene linking [~1 hour, ~30G]
 
