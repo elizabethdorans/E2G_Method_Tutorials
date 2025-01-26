@@ -30,8 +30,9 @@ Example command: [~1 hour, ~20G]
 <rna_matrix_barcodes>: A .txt file containing cell barcodes (one per line) corresponding to <rna_matrix>.\
 <rna_matrix_genes>: A .txt file containing gene names (one per line) corresponding to <rna_matrix>.\
 <atac_fragments>: ATAC fragment file (.tbi file with same file basename must be in the same folder).\
+<output_dir>: Path to folder where outputs will be saved.\
 <filtered_barcodes>: [OPTIONAL] File with subset of cell barcodes (in column labeled 'barcode') and, optionally, additional metadata columns. The Seurat object will only include these cells.\
-<output_dir>: Path to folder where outputs will be saved.
+<macs2_folder>: [OPTIONAL] Path to folder containing macs2 executable. Default is "macs2/" which is included in this repo. NOTE: if you are running this script from another directory, you must specify the path, e.g. --macs2_folder E2G_Method_Tutorials/macs2.
                     
 Outputs: 
 

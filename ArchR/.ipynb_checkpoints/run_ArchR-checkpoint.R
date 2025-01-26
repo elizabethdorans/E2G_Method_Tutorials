@@ -26,7 +26,7 @@ atac_fragments = args$atac_fragments
 archr_output_dir = args$archr_output_dir
 
 # Create output directory if needed
-print(sprintf("Output directory: %s", archr_output_dir))
+sprintf("Output directory: %s", archr_output_dir)
 if (!dir.exists(archr_output_dir)) {
     dir.create(archr_output_dir, recursive = TRUE)
 }

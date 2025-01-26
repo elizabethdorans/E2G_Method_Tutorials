@@ -10,10 +10,12 @@ The script `run_Cicero.R` takes as input an assembled Seurat object and computes
 
 Example command: [~8 hours, ~30G]
 
-`Rscript run_Cicero.R --seurat_object <seurat_object> --cicero_output_dir <cicero_output_dir>`
+`Rscript run_Cicero.R --seurat_object <seurat_object> --cicero_output_dir <cicero_output_dir> --genome_size_file <genome_size_file>`
 
 <seurat_object>: A Seurat object containing ATAC, RNA, and peak data (output of `../seurat_object_preprocessing.R`).\
-<cicero_output_dir>: Path to folder where outputs will be saved.
+<cicero_output_dir>: Path to folder where outputs will be saved.\
+<genome_size_file>: [OPTIONAL] Path to hg38.chrom.sizes (only supply if running `run_Cicero.R` from outside its folder.
+
                     
 Outputs: 
 
