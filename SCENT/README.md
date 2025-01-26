@@ -73,4 +73,4 @@ Outputs:
 
 1) Single file of SCENT peak-gene link predictions (output_file).
 
-## Step 3: Postprocessing for IGVF portal (see main E2G_Method_Tutorials folder)
+## Step 4: Postprocessing for IGVF portal (see main E2G_Method_Tutorials folder)
