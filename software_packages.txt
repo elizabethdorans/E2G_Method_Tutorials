@@ -38,6 +38,15 @@ GenomicRanges_1.50.2
 stringr_1.5.0
 data.table_1.14.8
 
+## SCENT
+
+# Running SCENT
+
+SCENT_0.1.0
+Signac_1.10.0
+Seurat_4.3.0.1
+argparse_2.2.2
+
 # Postprocessing Signac predictions (Signac_postprocessing.R)
 
 data.table_1.14.8
