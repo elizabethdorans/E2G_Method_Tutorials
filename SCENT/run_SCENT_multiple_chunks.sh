@@ -20,6 +20,6 @@ do
         # Run SCENT
         cmd="Rscript $script --seurat_object $seurat_object --candidate_link_file $candidate_link_file --scent_output_file $scent_output_file"
         echo $cmd
-        sbatch --time=1-0:00:00 --mem=20G -p medium -c 1 --wrap="$cmd"
+        sbatch --time=1-0:00:00 --mem=10G -p medium -c 1 --wrap="$cmd"
     fi
 done
