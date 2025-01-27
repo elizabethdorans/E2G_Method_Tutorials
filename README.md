@@ -6,7 +6,7 @@ Clone the repository using the following command:
 
 `git clone https://github.com/elizabethdorans/E2G_Method_Tutorials.git`
 
-Download required packages in software_packages.txt.
+Download required packages in `software_packages.txt`.
 
 See below (and method-specific subfolders) for steps to run single-cell peak-gene linking methods on single-cell multiome data.
 
