@@ -31,6 +31,11 @@ if (!dir.exists(dirname(scent_output_file))) {
 print("Reading in Seurat object!")
 data = readRDS(seurat_object)
 
+# Extract expression (counts) and ATAC (binarized) matrices
+rna_mtx = GetAssayData(data, assay = "RNA")
+atac_mtx = GetAssayData(data, assay = "peaks")
+atac_mtx <- 1 * (atac_mtx > 0)
+
 # Add relevant metadata
 
 # 1) nUMI
@@ -40,19 +45,14 @@ data@meta.data$nUMI = data@meta.data$nCount_RNA
 data@meta.data$celltype = "focal"
 
 # 3) Percent mitochondrial reads
-mito.genes <- grep(pattern = "^MT-", x = rownames(x = data@assays$RNA), value = TRUE)
-percent.mito <- Matrix::colSums(data@assays$RNA[mito.genes, ])/Matrix::colSums(data@assays$RNA)
+mito.genes <- grep(pattern = "^MT-", x = rownames(rna_mtx), value = TRUE)
+percent.mito <- colSums(rna_mtx[mito.genes, ])/colSums(rna_mtx)
 data <- AddMetaData(object = data, metadata = percent.mito, col.name = "percent.mito")
 
 # Extract metadata
 metadata = data@meta.data[, c("barcode", "nUMI", "percent.mito", "celltype")]
 metadata$log_nUMI = log(metadata$nUMI)
 metadata$cell = rownames(metadata)
-
-# Extract expression (counts) and ATAC (binarized) matrices
-rna_mtx = GetAssayData(data, assay = "RNA")
-atac_mtx = GetAssayData(data, assay = "peaks")
-atac_mtx <- 1 * (atac_mtx > 0)
 
 # Read in candidate peak-gene links
 print("Reading in candidate peak-gene links!")
