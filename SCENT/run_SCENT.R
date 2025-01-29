@@ -32,8 +32,8 @@ print("Reading in Seurat object!")
 data = readRDS(seurat_object)
 
 # Extract expression (counts) and ATAC (binarized) matrices
-rna_mtx = GetAssayData(data, assay = "RNA")
-atac_mtx = GetAssayData(data, assay = "peaks")
+rna_mtx = GetAssayData(data, assay = "RNA", layer = "counts")
+atac_mtx = GetAssayData(data, assay = "peaks", layer = "counts")
 atac_mtx <- 1 * (atac_mtx > 0)
 
 # Add relevant metadata
