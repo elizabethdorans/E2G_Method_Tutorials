@@ -16,12 +16,15 @@ parser$add_argument("--seurat_object",
     help="[REQUIRED] Path to Seurat object preprocessed for Signac peak-gene linking (see Signac_preprocessing.R) [.rds]")
 parser$add_argument("--signac_output_dir", default = ".",
     help = "Path to directory for output files")
+parser$add_argument("--max_peak_TSS_distance", default = 1e+05,
+    help = "Maximum distance (in base pairs) between TSS and peak")
 
 args <- parser$parse_args()
 
 chromosome = args$chromosome
 seurat_object = args$seurat_object
 signac_output_dir = args$signac_output_dir
+max_peak_TSS_distance = as.numeric(args$max_peak_TSS_distance)
 
 # Create output directory if needed
 print(sprintf("Output directory: %s", signac_output_dir))
@@ -51,6 +54,7 @@ data <- LinkPeaks(
   peak.assay = "peaks",
   expression.assay = "SCT",
   genes.use = gene_set,
+  distance = max_peak_TSS_distance,
   pvalue_cutoff = 1,
   score_cutoff = 0
 )
