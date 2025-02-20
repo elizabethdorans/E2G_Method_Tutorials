@@ -13,7 +13,6 @@ Example command: [~1 hour, ~30G]
 
 <seurat_object>: A Seurat object containing ATAC, RNA, and peak data (output of `../seurat_object_preprocessing.R`).\
 <signac_output_dir>: Path to folder where outputs will be saved.\
-<max_peak_TSS_distance>: Maximum peak-TSS distance to test a candidate link.
                     
 Outputs: 
 
@@ -26,7 +25,7 @@ The script `run_Signac.sh` takes as input a pre-processed Seurat object and runs
 
 Example command: 
 
-`bash run_Signac.sh <seurat_object> <signac_output_dir>`
+`bash run_Signac.sh <seurat_object> <signac_output_dir> <max_peak_TSS_distance>`
 
 <seurat_object>: A preprocessed Seurat object (output of `Signac_preprocessing.R`).\
 <signac_output_dir>: Path to folder where outputs will be saved (one file per chromosome).\
