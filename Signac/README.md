@@ -28,7 +28,8 @@ Example command:
 `bash run_Signac.sh <seurat_object> <signac_output_dir>`
 
 <seurat_object>: A preprocessed Seurat object (output of `Signac_preprocessing.R`).\
-<signac_output_dir>: Path to folder where outputs will be saved (one file per chromosome).
+<signac_output_dir>: Path to folder where outputs will be saved (one file per chromosome).\
+<max_peak_TSS_distance>: Maximum distance between peak and TSS to test (default is 500kb).
                     
 Outputs: 
 
