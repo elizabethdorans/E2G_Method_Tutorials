@@ -12,7 +12,8 @@ Example command: [~1 hour, ~30G]
 `Rscript Signac_preprocessing.R --seurat_object <seurat_object> --signac_output_dir <signac_output_dir>`
 
 <seurat_object>: A Seurat object containing ATAC, RNA, and peak data (output of `../seurat_object_preprocessing.R`).\
-<signac_output_dir>: Path to folder where outputs will be saved.
+<signac_output_dir>: Path to folder where outputs will be saved.\
+<max_peak_TSS_distance>: Maximum peak-TSS distance to test a candidate link.
                     
 Outputs: 
 
