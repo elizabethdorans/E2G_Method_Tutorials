@@ -16,7 +16,7 @@ parser$add_argument("--seurat_object",
     help="[REQUIRED] Path to Seurat object preprocessed for Signac peak-gene linking (see Signac_preprocessing.R) [.rds]")
 parser$add_argument("--signac_output_dir", default = ".",
     help = "Path to directory for output files")
-parser$add_argument("--max_peak_TSS_distance", default = 1e+05,
+parser$add_argument("--max_peak_TSS_distance", default = 5e+05,
     help = "Maximum distance (in base pairs) between TSS and peak")
 
 args <- parser$parse_args()
