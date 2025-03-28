@@ -91,6 +91,11 @@ if (!is.null(opt$cell_type)) {
   pred$CellType <- opt$cell_type
 }
 
+# set SampleSummaryShort if specified
+if (!is.null(opt$sample_summary_short)) {
+  pred$SampleSummaryShort <- opt$sample_summary_short
+}
+
 # create header lines
 header <- c(
   paste("# Source:", opt$method),
@@ -120,7 +125,7 @@ pred <- pred %>%
   mutate(ElementName = paste0(ElementChr, ":", ElementStart, "-", ElementEnd),
          ElementClass = NA_character_) %>% 
   select(ElementChr, ElementStart, ElementEnd, ElementName, ElementClass,
-         GeneSymbol, GeneEnsemblID, GeneTSS = TSSEnd,
+         GeneSymbol, GeneEnsemblID, GeneTSS = TSSEnd, SampleSummaryShort,
          Score = all_of(opt$score_column), all_of(alt_score_cols))
 
 # save to output file
