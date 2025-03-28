@@ -27,11 +27,11 @@ The script `Cicero_postprocessing.sh` takes as input Cicero peak-peak co-accessi
 
 Example command: 
 
-`bash Cicero_postprocessing.sh <input_file> <macs2_peaks_bedfile>`
+`bash Cicero_postprocessing.sh <input_file> <macs2_peaks_bedfile> <promoter_bedfile>`
 
 <input_file>: A .tsv file containing eak-peak co-accessibility predictions.\
 <macs2_peaks_bedfile>: A bedfile with ATAC peaks (output of `../seurat_object_preprocessing.R`).\
-<promoter_bedfile>: [DEFAULT ../TSS_plusminus500bp.bed] A bedfile specifying gene promoter regions (columns chr, start, end, gene). The default file contains the regions +/- 500 bp from the gene TSS specified in ../CollapsedGeneBounds.hg38.bed.
+<promoter_bedfile>: [DEFAULT ../TSS_plusminus500bp.bed] A bedfile specifying gene promoter regions (columns chr, start, end, gene). The default file contains the regions +/- 500 bp from the gene TSS specified in ../CollapsedGeneBounds.hg38.bed (if the script is run from outside the Cicero/ directory, the correct path to this file must be specified).
                     
 Outputs: 
 
