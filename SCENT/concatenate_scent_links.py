@@ -30,6 +30,7 @@ for file in pgl_files:
         merged = pd.concat([merged, tmp])
         
 merged = merged.drop(columns = ["se", "z", "p"])
+merged = merged.drop_duplicates()
 
 merged.to_csv(output_file, sep = "\t", index = False)
 print(merged)

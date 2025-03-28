@@ -41,9 +41,10 @@ The script `Signac_postprocessing.sh` takes as input a folder containing per-chr
 
 Example command: 
 
-`Rscript Signac_postprocessing.R --input_folder <input_folder>`
+`Rscript Signac_postprocessing.R --input_folder <input_folder> --gene_universe_file <gene_universe_file>`
 
-<input_folder>: Path to a folder containing per-chromosome Signac peak-gene link predictions in the format chr*.tsv.
+<input_folder>: Path to a folder containing per-chromosome Signac peak-gene link predictions in the format chr*.tsv.\
+<gene_universe_file>: Path to a file containing gene universe for linking predictions. Default is ../IGVF_portal_genes_file.tsv. If running `Signac_postprocessing.R` from outside of this directory, must specify the correct path to this file.
                     
 Outputs: 
 

@@ -18,21 +18,29 @@ parser$add_argument("--atac_fragments",
                     help = "[REQUIRED] ATAC fragment file (.tsv.gz) (tsv.gz.tbi file must be in same directory)")
 parser$add_argument("--archr_output_dir",  default = ".",
     help = "Path to directory for output files")
+parser$add_argument("--gene_universe_file", 
+    default = "../IGVF_portal_genes_file.tsv",
+    help="path to file with TSS coordinates")
 
 args <- parser$parse_args()
 
 seurat_object = args$seurat_object
 atac_fragments = args$atac_fragments
 archr_output_dir = args$archr_output_dir
+gene_universe_file = args$gene_universe_file
 
 # Create output directory if needed
-sprintf("Output directory: %s", archr_output_dir)
+print(sprintf("Output directory: %s", archr_output_dir))
 if (!dir.exists(archr_output_dir)) {
     dir.create(archr_output_dir, recursive = TRUE)
 }
 
 # Create outfile name
 links_outfile <- sprintf(sprintf("%s/archr_peak_gene_links.tsv", archr_output_dir))
+
+# Load gene universe
+gene_universe <- read.table(gene_universe_file, header = TRUE)$GeneSymbol
+head(gene_universe)
 
 # Load Seurat object
 seurat_obj <- readRDS(seurat_object)
@@ -162,8 +170,14 @@ p2g$gene = genes[p2g$idxRNA]
 p2g$idxATAC = NULL
 p2g$idxRNA = NULL
 p2g$Score = p2g$Correlation
+p2g <- p2g[,c("peak", "gene", "Score", "FDR")]
+
+# Restrict peak-gene links to gene universe
+p2g <- p2g[p2g$gene %in% gene_universe,]
 
 # Save project and peak-gene links
 write.table(p2g, links_outfile, sep = "\t", row.names = FALSE, quote = FALSE)
+
 saveArchRProject(ArchRProj = proj, outputDirectory = sprintf("%s/project", archr_output_dir), load = FALSE)
+
 sprintf("Saved project to %s and peak-gene links to %s!", sprintf("%s/project", archr_output_dir), links_outfile)
