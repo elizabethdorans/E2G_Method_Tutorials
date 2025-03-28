@@ -5,7 +5,7 @@ suppressPackageStartupMessages(library(dplyr))
 parser <- ArgumentParser()
 
 parser$add_argument("--input_file",
-    help="[REQUIRED] Path to folder containing Signac peak-gene link predictions for each chromosome")
+    help="[REQUIRED] Path to file containing Cicero peak-gene link predictions")
 parser$add_argument("--promoter_peaks_bedfile",
     help="[REQUIRED] Path to bedfile of peaks noting overlap with promoter(s)")
 
@@ -28,10 +28,15 @@ promoter_peaks = promoter_peaks %>%
 cicero = read.table(input_file, sep = "\t", header = TRUE)
 cicero = cicero[complete.cases(cicero),]
 
+# Define peak-gene links using promoters that intersect peaks
 pgl = merge(cicero, promoter_peaks, by.x = "Peak1", by.y = "peak")
 pgl = pgl %>% 
     mutate(peak = Peak2, Score = coaccess) %>%
     select(peak, gene, Score)
+
+pgl = data.frame(pgl %>%
+    group_by(peak, gene) %>% 
+    summarise(Score = mean(Score)))
 
 outfile = sprintf("%s/cicero_peak_gene_links.tsv", input_folder)
 write.table(pgl, outfile, sep = "\t", row.names = FALSE, quote = FALSE)

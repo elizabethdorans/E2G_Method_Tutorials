@@ -30,8 +30,12 @@ data <- readRDS(seurat_object)
 
 # gene expression data processing
 DefaultAssay(data) <- "RNA"
-data <- SCTransform(data)
+data <- SCTransform(data, verbose = TRUE)
 data <- RunPCA(data)
+
+assay.obj <- GetAssay(object = object, assay = assay)
+umi <- GetAssayData(object = assay.obj, slot = "counts")
+cell.attr <- slot(object = object, name = "meta.data")
 
 # DNA accessibility data processing
 DefaultAssay(data) <- "peaks"

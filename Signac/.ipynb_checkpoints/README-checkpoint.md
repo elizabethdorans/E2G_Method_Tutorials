@@ -1,17 +1,18 @@
 # Signac Tutorial
 
-This repo contains code for peak-gene linking using Cicero (Pliner 2018 Mol Cell). Based on tutorial code at https://stuartlab.org/signac/articles/pbmc_multiomic.html.
+This folder contains code for peak-gene linking using Signac (Stuart 2021 Nature Methods). Based on tutorial code at https://stuartlab.org/signac/articles/pbmc_multiomic.html.
 
 ## Step 1: Preprocessing for Signac
 
 The script `Signac_preprocessing.R` takes as input an assembled Seurat object and runs preprocessing steps needed for Signac peak-gene linking.
+
 
 Example command: [~1 hour, ~30G]
 
 `Rscript Signac_preprocessing.R --seurat_object <seurat_object> --signac_output_dir <signac_output_dir>`
 
 <seurat_object>: A Seurat object containing ATAC, RNA, and peak data (output of `../seurat_object_preprocessing.R`).\
-<signac_output_dir>: Path to folder where outputs will be saved.
+<signac_output_dir>: Path to folder where outputs will be saved.\
                     
 Outputs: 
 
@@ -19,16 +20,16 @@ Outputs:
 
 ## Step 2: Running Signac
 
-**ATTENTION: Lines 12 and 22 contain 'sbatch' commmands to submit batch jobs to Slurm on a remote cluster. Edit these lines as appropriate.**
-
 The script `run_Signac.sh` takes as input a pre-processed Seurat object and runs Signac peak-gene linking.
+**ATTENTION: Lines 12 and 22 contain 'sbatch' commmands to submit batch jobs to Slurm on a remote cluster. Edit these lines as appropriate.**
 
 Example command: 
 
-`bash run_Signac.sh <seurat_object> <signac_output_dir>`
+`bash run_Signac.sh <seurat_object> <signac_output_dir> <max_peak_TSS_distance>`
 
 <seurat_object>: A preprocessed Seurat object (output of `Signac_preprocessing.R`).\
-<signac_output_dir>: Path to folder where outputs will be saved (one file per chromosome).
+<signac_output_dir>: Path to folder where outputs will be saved (one file per chromosome).\
+<max_peak_TSS_distance> [OPTIONAL]: Maximum distance between peak and TSS to test (default is 500kb).
                     
 Outputs: 
 
@@ -40,9 +41,10 @@ The script `Signac_postprocessing.sh` takes as input a folder containing per-chr
 
 Example command: 
 
-`Rscript Signac_postprocessing.R --input_folder <input_folder>`
+`Rscript Signac_postprocessing.R --input_folder <input_folder> --gene_universe_file <gene_universe_file>`
 
-<input_folder>: Path to a folder containing per-chromosome Signac peak-gene link predictions in the format chr*.tsv.
+<input_folder>: Path to a folder containing per-chromosome Signac peak-gene link predictions in the format chr*.tsv.\
+<gene_universe_file>: Path to a file containing gene universe for linking predictions. Default is ../IGVF_portal_genes_file.tsv. If running `Signac_postprocessing.R` from outside of this directory, must specify the correct path to this file.
                     
 Outputs: 
 
