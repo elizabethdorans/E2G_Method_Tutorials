@@ -1,0 +1,5 @@
+[1] "Output directory: ../../results/GM12878_10XMultiome_GM12878/signac/pgl"
+[1] "Reading in Seurat object!"
+[1] "Linking across 933 possible genes on chromosome 15!"
+Testing 353 genes and 117404 peaks
+[1] "Output to ../../results/GM12878_10XMultiome_GM12878/signac/pgl/chr15.tsv!"

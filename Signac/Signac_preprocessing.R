@@ -33,10 +33,6 @@ DefaultAssay(data) <- "RNA"
 data <- SCTransform(data, verbose = TRUE)
 data <- RunPCA(data)
 
-assay.obj <- GetAssay(object = object, assay = assay)
-umi <- GetAssayData(object = assay.obj, slot = "counts")
-cell.attr <- slot(object = object, name = "meta.data")
-
 # DNA accessibility data processing
 DefaultAssay(data) <- "peaks"
 data <- FindTopFeatures(data, min.cutoff = 5)
@@ -44,5 +40,5 @@ data <- RunTFIDF(data)
 data <- RunSVD(data)
 
 # compute the GC content for each peak
-data <- RegionStats(data, genome = BSgenome.Hsapiens.UCSC.hg38)
+data <- RegionStats(data, genome = BSgenome.Hsapiens.UCSC.hg38, verbose = TRUE)
 saveRDS(data, outfile_name)
