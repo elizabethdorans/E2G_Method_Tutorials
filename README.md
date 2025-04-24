@@ -1,6 +1,6 @@
 # E2G Method Tutorials
 
-This repo contains tutorials for linking enhancers (ATAC peaks) to genes using single-cell RNA + ATAC multiome data. Data preprocessing and peak-gene linking scripts are included for the following methods: Signac (Stuart 2021 Nature Methods), Cicero (Pliner 2018 Mol Cell), ArchR (Granja 2021 Nature Genetics). A tutorial for SCENT (Sakaue 2024 Nature Genetics) is forthcoming.
+This repo contains tutorials for linking enhancers (ATAC peaks) to genes using single-cell RNA + ATAC multiome data. Data preprocessing and peak-gene linking scripts are included for the following methods: Signac (Stuart 2021 Nature Methods), Cicero (Pliner 2018 Mol Cell), ArchR (Granja 2021 Nature Genetics), and SCENT (Sakaue 2024 Nature Genetics).
 
 Clone the repository using the following command: 
 
