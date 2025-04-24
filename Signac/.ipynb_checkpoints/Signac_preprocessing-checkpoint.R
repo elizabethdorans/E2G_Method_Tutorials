@@ -30,7 +30,7 @@ data <- readRDS(seurat_object)
 
 # gene expression data processing
 DefaultAssay(data) <- "RNA"
-data <- SCTransform(data)
+data <- SCTransform(data, verbose = TRUE)
 data <- RunPCA(data)
 
 # DNA accessibility data processing

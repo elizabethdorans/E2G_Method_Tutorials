@@ -1,5 +1,6 @@
 seurat_object=$1
 signac_output_dir=$2
+max_peak_TSS_distance=$3
 
 # Autosomes
 for chrom in {1..22}
@@ -7,9 +8,14 @@ do
     outfile=$signac_output_dir/chr${chrom}.tsv
     if ! [ -f $outfile ]
     then
-        cmd="Rscript run_Signac_single_chromosome.R $chrom --seurat_object $seurat_object --signac_output_dir $signac_output_dir"
+        if [[ -z "$max_peak_TSS_distance" ]]; then
+            cmd="Rscript run_Signac_single_chromosome.R $chrom --seurat_object $seurat_object --signac_output_dir $signac_output_dir"
+        else
+            echo "Variable is not empty"
+        fi
+        cmd="Rscript run_Signac_single_chromosome.R $chrom --seurat_object $seurat_object --signac_output_dir $signac_output_dir --max_peak_TSS_distance $max_peak_TSS_distance"
         echo $cmd
-        sbatch --time=8:00:00 --mem=20G -p short -c 1 --wrap="$cmd"
+        sbatch --time=10:00:00 --mem=20G -p short -c 1 --wrap="$cmd"
     fi
 done
 
