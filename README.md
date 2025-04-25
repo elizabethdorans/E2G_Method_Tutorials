@@ -1,4 +1,4 @@
-# E2G Method Tutorials
+# E2G Method Tutorials [![DOI](https://zenodo.org/badge/859385266.svg)](https://doi.org/10.5281/zenodo.15284077)
 
 This repo contains tutorials for linking enhancers (ATAC peaks) to genes using single-cell RNA + ATAC multiome data. Data preprocessing and peak-gene linking scripts are included for the following methods: Signac (Stuart 2021 Nature Methods), Cicero (Pliner 2018 Mol Cell), ArchR (Granja 2021 Nature Genetics), and SCENT (Sakaue 2024 Nature Genetics).
 
