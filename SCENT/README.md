@@ -23,7 +23,7 @@ Outputs:
 
 ## Step 2: Running SCENT
 
-* If you wish to run the SCENT algorithm on on one candidate peak-gene link file *
+_If you wish to run the SCENT algorithm on on one candidate peak-gene link file:_
 
 The script `run_SCENT.R` takes as input a Seurat object and candidate peak-gene link file and generates SCENT predictions.
 
@@ -39,7 +39,7 @@ Outputs:
 
 1) SCENT peak-gene link predictions (scent_output_file).
 
-* If you wish to run the SCENT algorithm on multiple candidate peak-gene link files in parallel *
+_If you wish to run the SCENT algorithm on multiple candidate peak-gene link files in parallel:_
 
 The script `run_SCENT_multiple_chunks.sh` takes as input a Seurat object and *a folder of* candidate peak-gene link files and generates SCENT predictions.
 **ATTENTION: Line 21 contains an 'sbatch' commmand to submit batch jobs to Slurm on a remote cluster with 10G of memory and 1 day of runtime each. Edit this line as appropriate.**
