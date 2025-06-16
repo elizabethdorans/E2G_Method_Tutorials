@@ -32,7 +32,7 @@ Outputs:
 
 ## Step 2: Running SCENT
 
-<ins>2A: Running the SCENT algorithm on on one candidate peak-gene link file</ins>
+<ins>2A: Running the SCENT algorithm on on a single candidate peak-gene link file</ins>
 
 **NOTE: Step 2A is optional, but recommended to test the SCENT code on a smaller scale before proceeding to step 2B.**
 
