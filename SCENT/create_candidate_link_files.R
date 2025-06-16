@@ -40,8 +40,8 @@ data = readRDS(seurat_object)
 gene_universe = read.table(tss_coordinates_file, header = TRUE)
 
 # Read in expression (counts) and ATAC (binarized) matrices
-rna_mtx = GetAssayData(data, assay = "RNA")
-atac_mtx = GetAssayData(data, assay = "peaks")
+rna_mtx = GetAssayData(data, assay = "RNA", layer = "counts")
+atac_mtx = GetAssayData(data, assay = "peaks", layer = "counts")
 atac_mtx <- 1 * (atac_mtx > 0)
 
 # Restrict to genes in gene universe expressed in > 5% of cells

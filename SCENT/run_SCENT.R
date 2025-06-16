@@ -14,12 +14,18 @@ parser$add_argument("--candidate_link_file",
     help = "[REQUIRED] Path to file with candidate peak-gene links")
 parser$add_argument("--scent_output_file",  default = "./scent.tsv",
     help = "Path to file for SCENT output")
+parser$add_argument("--skip_bootstrap",  action = "store_true",
+    help = "Supply this argument to skip the SCENT bootstrap p-value procedure")
+parser$add_argument("--max_bootstrap_iter",  default = 50000,
+    help = "Maximum number of bootstrap iterations to run in SCENT algorithm (see docs at https://github.com/immunogenomics/SCENT)")
 
 args <- parser$parse_args()
 
 seurat_object = args$seurat_object
 candidate_link_file = args$candidate_link_file
 scent_output_file = args$scent_output_file
+skip_bootstrap = args$skip_bootstrap
+max_bootstrap_iter = as.numeric(args$max_bootstrap_iter)
 
 # Create output directory if needed
 print(sprintf("Output directory: %s", dirname(scent_output_file)))
@@ -66,7 +72,16 @@ SCENT_obj <- CreateSCENTObj(rna = rna_mtx, atac = atac_mtx, meta.data = metadata
                             celltypes = "celltype")
 
 print("Running SCENT!")
-SCENT_obj <- SCENT_algorithm(object = SCENT_obj, celltype = "focal", ncores = 1)
+
+if (skip_bootstrap == TRUE) {
+    boot = FALSE
+    print("Skipping bootstrap!")
+    SCENT_obj <- SCENT_algorithm(object = SCENT_obj, celltype = "focal", ncores = 1, boot = FALSE)
+} else {
+    boot = TRUE
+    message(sprintf("Max # bootstrap iterations: %s", max_bootstrap_iter))
+    SCENT_obj <- SCENT_algorithm(object = SCENT_obj, celltype = "focal", ncores = 1, boot = TRUE, maxboot = max_bootstrap_iter)
+}
 
 write.table(SCENT_obj@SCENT.result, scent_output_file, sep = "\t", row.names = F, quote = F)
 print(SCENT_obj@SCENT.result)
