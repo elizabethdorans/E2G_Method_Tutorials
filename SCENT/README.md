@@ -21,7 +21,7 @@ Example command: [~3 minutes]
 
 <seurat_object>: A Seurat object containing ATAC, RNA, and peak data (output of ../seurat_object_preprocessing.R).\
 <number_candidate_links_per_file>: The maximum number of candidate peak-gene links (one linke per row) in each candidate peak-gene link file (per run of SCENT). Time to test each candidate peak-gene link can vary widely. It is reasonable to specify ~1000 candidate links per file (for ~1 day per SCENT run, see below) and adjust as needed. 
-- \***If you wish to run SCENT without generating bootstrap p-values, it is reasonable to specify ~70,000 links per file (for ~1 day per SCENT run, see below) and adjust as needed.\
+- \***If you wish to run SCENT without generating bootstrap p-values, it is reasonable to specify ~70,000 links per file (for ~1 day per SCENT run, see below) and adjust as needed.
 
 <candidate_link_file_output_dir>: Path to folder where candidate peak-gene link files will be saved.\
 <tss_coordinates_file>: [OPTIONAL] Path to file with TSS coordinates. Default is "../TSS.txt" which is included in the E2G_Method_Tutorials repo. NOTE: if you are running this script from another directory, you must specify the path, e.g. --tss_coordinates_file E2G_Method_Tutorials/TSS.txt.
