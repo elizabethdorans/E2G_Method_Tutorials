@@ -2,7 +2,7 @@
 
 This folder contains code for peak-gene linking using SCENT (Sakaue 2024 Nature Methods). SCENT code and tutorial can be found at [https://github.com/immunogenomics/SCENT].
 
-\***If you wish to run SCENT without generating bootstrap p-values (for example, if you are generating features for [pgBoost](https://github.com/elizabethdorans/pgBoost/tree/main)), then you should:
+\***If you wish to run SCENT without generating bootstrap p-values (for example, if you are generating features for [pgBoost](https://github.com/elizabethdorans/pgBoost/tree/main)), then you must:
 - Download the development version of SCENT using:
 ```
 devtools::install_github("immunogenomics/SCENT", ref="dev")
