@@ -18,7 +18,7 @@ do
     if ! [ -f $scent_output_file ]
     then
         # Run SCENT
-        cmd="Rscript $script --seurat_object $seurat_object --candidate_link_file $candidate_link_file --scent_output_file $scent_output_file --skip_bootstrap"
+        cmd="Rscript $script --seurat_object $seurat_object --candidate_link_file $candidate_link_file --scent_output_file $scent_output_file"
         echo $cmd
         sbatch --time=1-0:00:00 --mem=10G -p medium -c 1 --wrap="$cmd"
     fi
