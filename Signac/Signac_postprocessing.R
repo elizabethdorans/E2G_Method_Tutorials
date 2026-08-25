@@ -7,9 +7,8 @@ parser <- ArgumentParser()
 
 parser$add_argument("--input_folder",
     help="[REQUIRED] Path to folder containing Signac peak-gene link predictions for each chromosome")
-parser$add_argument("--gene_universe_file", 
-    default = "../IGVF_portal_genes_file.tsv",
-    help="path to file with TSS coordinates")
+parser$add_argument("--gene_universe_file",
+    help="path to gene universe file with GeneSymbol column")
 
 args <- parser$parse_args()
 
@@ -25,8 +24,11 @@ for (file in in_files) {
 }
 
 # Restrict peak-gene links to gene universe
-gene_universe <- read.table(gene_universe_file, header = TRUE)$GeneSymbol
-pgl <- pgl[pgl$gene %in% gene_universe,]
+if (!is.null(gene_universe_file)) {
+    sprintf("Restricting to gene universe in %s!", gene_universe_file)
+    gene_universe <- unique(read.table(gene_universe_file, header = TRUE)$GeneSymbol)
+    pgl <- pgl[pgl$gene %in% gene_universe,]
+}
 
 # Rename score column
 pgl = pgl %>% rename(Score = score)

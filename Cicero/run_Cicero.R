@@ -13,6 +13,8 @@ parser <- ArgumentParser()
 
 parser$add_argument("--seurat_object",
     help="[REQUIRED] Path to Seurat object with RNA, ATAC, and peak assays")
+parser$add_argument("--max_peak_TSS_distance", default = 500000,
+                    help = "Maximum peak-TSS distance to compute peak-gene linking score (500kb by default)")
 parser$add_argument("--cicero_output_dir",  default = ".",
     help = "Path to directory for output files")
 parser$add_argument("--genome_size_file",  default = "./hg38.chrom.sizes",
@@ -21,6 +23,7 @@ parser$add_argument("--genome_size_file",  default = "./hg38.chrom.sizes",
 args <- parser$parse_args()
 
 seurat_object = args$seurat_object
+max_peak_TSS_distance = as.numeric(args$max_peak_TSS_distance)
 cicero_output_dir = args$cicero_output_dir
 genome_size_file = args$genome_size_file
 
@@ -30,15 +33,27 @@ if (!dir.exists(cicero_output_dir)) {
     dir.create(cicero_output_dir, recursive = TRUE)
 }
 
-# Create outfile name
-links_outfile <- sprintf(sprintf("%s/cicero_connections.tsv", cicero_output_dir))
-
 # Read in Seurat object
 print("Reading in Seurat object!")
 data = readRDS(seurat_object)
 
-accessibility_data <- GetAssayData(object = data, assay = "peaks", slot = "data")
+accessibility_data <- GetAssayData(object = data, assay = "peaks", layer = "counts")
 accessibility_data <- 1 * (accessibility_data > 0)
+
+# Remove cells and peaks with no accessible sites before creating the CDS.
+nonzero_cells <- Matrix::colSums(accessibility_data) > 0
+message(sprintf(
+    "Removing %s cells with zero accessibility",
+    sum(!nonzero_cells)
+))
+accessibility_data <- accessibility_data[, nonzero_cells, drop = FALSE]
+
+nonzero_peaks <- Matrix::rowSums(accessibility_data) > 0
+message(sprintf(
+    "Removing %s peaks with zero accessibility",
+    sum(!nonzero_peaks)
+))
+accessibility_data <- accessibility_data[nonzero_peaks, , drop = FALSE]
 
 # Make CDS
 cellinfo <- data.frame(cells = colnames(accessibility_data))
@@ -51,8 +66,6 @@ input_cds <-  suppressWarnings(new_cell_data_set(accessibility_data,
                                                  cell_metadata = cellinfo,
                                                  gene_metadata = peakinfo))
 
-# Ensure there are no peaks included with zero reads
-input_cds <- input_cds[Matrix::rowSums(exprs(input_cds)) != 0,]
 input_cds <- monocle3::detect_genes(input_cds)
 
 # Preprocessing
@@ -71,8 +84,13 @@ cicero_cds <- make_cicero_cds(input_cds, reduced_coordinates = umap_coords)
 # Read chromosome length information
 chromosome_length <- read.table(genome_size_file)
 
-conns <- run_cicero(cicero_cds, chromosome_length)
+# Run peak-gene linking
+print(sprintf("Linking peak-gene pairs within %s basepairs!", max_peak_TSS_distance))
+conns <- run_cicero(cicero_cds, chromosome_length, window = max_peak_TSS_distance)
 conns = conns[,c("Peak1", "Peak2", "coaccess")]
 
-write.table(conns, links_outfile, sep = "\t", quote = FALSE, row.names = FALSE)
+# Create outfile name
+links_outfile <- sprintf(sprintf("%s/cicero_connections.tsv.gz", cicero_output_dir))
+sprintf("Writing to %s!", links_outfile)
+fwrite(conns, links_outfile, compress = "gzip", sep = "\t", quote = FALSE, row.names = FALSE)
 sprintf("Output to %s!", links_outfile)

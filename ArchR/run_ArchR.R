@@ -16,18 +16,25 @@ parser$add_argument("--seurat_object",
     help="[REQUIRED] Path to Seurat object with RNA, ATAC, and peak assays")
 parser$add_argument("--atac_fragments",
                     help = "[REQUIRED] ATAC fragment file (.tsv.gz) (tsv.gz.tbi file must be in same directory)")
+parser$add_argument("--max_peak_TSS_distance", default = 500000,
+                    help = "Maximum peak-TSS distance to compute peak-gene linking score (500kb by default)")
 parser$add_argument("--archr_output_dir",  default = ".",
     help = "Path to directory for output files")
 parser$add_argument("--gene_universe_file", 
     default = "../IGVF_portal_genes_file.tsv",
     help="path to file with TSS coordinates")
+parser$add_argument("--save_project", 
+    action = "store_true",
+    help = "Supply this flag if you wish to save the entire ArchR project (not just the peak-gene links)")
 
 args <- parser$parse_args()
 
 seurat_object = args$seurat_object
 atac_fragments = args$atac_fragments
+max_peak_TSS_distance = as.numeric(args$max_peak_TSS_distance)
 archr_output_dir = args$archr_output_dir
 gene_universe_file = args$gene_universe_file
+save_project = args$save_project
 
 # Create output directory if needed
 print(sprintf("Output directory: %s", archr_output_dir))
@@ -39,7 +46,7 @@ if (!dir.exists(archr_output_dir)) {
 links_outfile <- sprintf(sprintf("%s/archr_peak_gene_links.tsv", archr_output_dir))
 
 # Load gene universe
-gene_universe <- read.table(gene_universe_file, header = TRUE)$GeneSymbol
+gene_universe <- unique(read.table(gene_universe_file, header = TRUE)$GeneSymbol)
 head(gene_universe)
 
 # Load Seurat object
@@ -58,6 +65,7 @@ data_name = basename(dirname(seurat_object))
 inputFiles = c(atac_fragments)
 names(inputFiles) = c(data_name)
 ArrowFiles <- sprintf("%s.arrow", data_name)
+
 createArrowFiles(inputFiles, 
                  minTSS = 0,
                  minFrags = 0,
@@ -66,11 +74,23 @@ createArrowFiles(inputFiles,
                  addTileMat = TRUE,
                  addGeneScoreMat = FALSE,
                  force = TRUE)
+
 proj <- ArchRProject(ArrowFiles)
 
 # Integrate RNA into ArchR project
-seRNA = as.SingleCellExperiment(seurat_obj, assay = "RNA")
-logcounts(seRNA) = NULL
+#seurat_obj[["RNA_v3"]] <- as(seurat_obj[["RNA"]]$counts, "Assay")
+# Now, convert to SingleCellExperiment using the new assay
+#sce_object <- as.SingleCellExperiment(seurat_object, assay = "RNA_v3")
+# You can remove the temporary assay if you wish
+#seurat_object[["RNA_v3"]] <- NULL
+
+seRNA <- GetAssayData(object = seurat_obj, assay = "RNA", layer = "counts")
+
+seRNA <- SingleCellExperiment(assays = list(counts = seRNA))
+#seRNA <- as.SingleCellExperiment(seRNA)
+
+#seRNA = as.SingleCellExperiment(seurat_obj, assay = "RNA", slot="counts")
+#logcounts(seRNA) = NULL
 colnames(seRNA) = paste0(sprintf("%s#", data_name), colnames(seRNA))
 
 gene_coords = getGenes(proj)
@@ -142,42 +162,67 @@ proj <- addPeakMatrix(
 )
 
 # Run peak-gene linking
-print(sprintf("Linking!"))
+print(sprintf("Linking peak-gene pairs within %s basepairs!", max_peak_TSS_distance))
 
 proj <- addPeak2GeneLinks(
     ArchRProj = proj,
-    maxDist = 500000,
+    maxDist = max_peak_TSS_distance,
     reducedDims = "LSI_Combined",
     useMatrix = "GeneExpressionMatrix",
     addEmpiricalPval = TRUE
 )
 
-p2g <- getPeak2GeneLinks(
+# Get positive peak-gene links
+p2g_positive <- getPeak2GeneLinks(
     ArchRProj = proj,
-    corCutOff = -1.5,
+    corCutOff = 0,
+    FDRCutOff = 1,
+    resolution = 1,
+    returnLoops = FALSE
+)
+
+# Get negative peak-gene links
+p2g_negative <- getPeak2GeneLinks(
+    ArchRProj = proj,
+    corCutOff = -5e-324,
     FDRCutOff = 1,
     resolution = 1,
     returnLoops = FALSE
 )
 
 # Convert peak-gene links to readable output
-peaks_idx = as.data.frame(metadata(p2g)[[1]])
-peaks = paste0(peaks_idx$seqnames, "-", peaks_idx$start - 1, "-", peaks_idx$end)
-gene_idx = as.data.frame(metadata(p2g)[[2]])
-genes = gene_idx$name
-p2g$peak = peaks[p2g$idxATAC]
-p2g$gene = genes[p2g$idxRNA]
-p2g$idxATAC = NULL
-p2g$idxRNA = NULL
-p2g$Score = p2g$Correlation
-p2g <- p2g[,c("peak", "gene", "Score", "FDR")]
+p2g_to_dataframe <- function(p2g) {
+    peaks_idx = as.data.frame(metadata(p2g)[[1]])
+    peaks = paste0(peaks_idx$seqnames, "-", peaks_idx$start - 1, "-", peaks_idx$end)
+    gene_idx = as.data.frame(metadata(p2g)[[2]])
+    genes = gene_idx$name
+    p2g$peak = peaks[p2g$idxATAC]
+    p2g$gene = genes[p2g$idxRNA]
+    p2g$idxATAC = NULL
+    p2g$idxRNA = NULL
+    p2g$Score = p2g$Correlation
+    p2g <- p2g[,c("peak", "gene", "Score", "FDR")]
+    return(p2g)
+}
+
+p2g_positive = p2g_to_dataframe(p2g_positive)
+print(sprintf("%s links with positive correlation", nrow(p2g_positive)))
+p2g_negative = p2g_to_dataframe(p2g_negative)
+print(sprintf("%s links with negative correlation", nrow(p2g_negative)))
+
+# Combine negative and positive peak-gene links
+p2g = rbind(p2g_positive, p2g_negative)
+print(sprintf("%s total links", nrow(p2g)))
 
 # Restrict peak-gene links to gene universe
 p2g <- p2g[p2g$gene %in% gene_universe,]
+print(sprintf("%s total links after restricting to gene universe", nrow(p2g)))
 
 # Save project and peak-gene links
 write.table(p2g, links_outfile, sep = "\t", row.names = FALSE, quote = FALSE)
+sprintf("Saved peak-gene links to %s!", links_outfile)
 
-saveArchRProject(ArchRProj = proj, outputDirectory = sprintf("%s/project", archr_output_dir), load = FALSE)
-
-sprintf("Saved project to %s and peak-gene links to %s!", sprintf("%s/project", archr_output_dir), links_outfile)
+if (save_project == TRUE) {
+    saveArchRProject(ArchRProj = proj, outputDirectory = sprintf("%s/project", archr_output_dir), load = FALSE)
+    sprintf("Saved project to %s!", sprintf("%s/project", archr_output_dir))
+}

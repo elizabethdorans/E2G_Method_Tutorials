@@ -17,7 +17,7 @@ promoter_peaks_bedfile = args$promoter_peaks_bedfile
 input_folder = dirname(input_file)
 
 # Read in bedfile specifying peaks overlapping promoters
-promoter_peaks = read.table(promoter_peaks_bedfile, sep = "\t", header = TRUE)
+promoter_peaks = read.table(promoter_peaks_bedfile, sep = "\t", header = FALSE)
 colnames(promoter_peaks) = c("chr", "start", "end", "promoter")
 promoter_peaks$peak = paste0("chr", paste(promoter_peaks$chr, (promoter_peaks$start + 1), promoter_peaks$end, sep = "-"))
 promoter_peaks = promoter_peaks %>%
@@ -39,4 +39,5 @@ pgl = data.frame(pgl %>%
     summarise(Score = mean(Score)))
 
 outfile = sprintf("%s/cicero_peak_gene_links.tsv", input_folder)
+
 write.table(pgl, outfile, sep = "\t", row.names = FALSE, quote = FALSE)

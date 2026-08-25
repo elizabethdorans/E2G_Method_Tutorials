@@ -16,6 +16,8 @@ parser$add_argument("--number_candidate_links_per_file",
     help="maximum number of candidate peak-gene links (one link per row) in each output file")
 parser$add_argument("--candidate_link_file_output_dir", 
     help="path to folder where candidate peak-gene link files will be saved")
+parser$add_argument("--max_peak_TSS_distance", default = 500000,
+                    help = "Maximum peak-TSS distance to compute peak-gene linking score (500kb by default)")
 parser$add_argument("--tss_coordinates_file", 
     default = "../TSS.txt",
     help="path to file with TSS coordinates")
@@ -25,6 +27,7 @@ args <- parser$parse_args()
 seurat_object = args$seurat_object
 number_candidate_links_per_file = as.numeric(args$number_candidate_links_per_file)
 candidate_link_file_output_dir = args$candidate_link_file_output_dir
+max_peak_TSS_distance = as.numeric(args$max_peak_TSS_distance)
 tss_coordinates_file = args$tss_coordinates_file
 
 # Create output directory if needed
@@ -58,9 +61,9 @@ peaks = data.frame(peak = rownames(atac_mtx))
 peaks$chr = sub("chr", "", sapply(strsplit(peaks$peak, "-"), "[[", 1))
 peaks$center = (as.numeric(sapply(strsplit(peaks$peak, "-"), "[[", 2)) + as.numeric(sapply(strsplit(peaks$peak, "-"), "[[", 3))) / 2
 
-# Get coordinates of windows +/- 500kb around gene TSS
-gene_universe$tss_minus_500kb = gene_universe$tss - 500000
-gene_universe$tss_plus_500kb = gene_universe$tss + 500000
+# Get coordinates of desired window around gene TSS
+gene_universe$tss_minus = gene_universe$tss - max_peak_TSS_distance
+gene_universe$tss_plus = gene_universe$tss + max_peak_TSS_distance
 
 # Define candidate peak-gene links
 candidate_links = data.frame()
@@ -71,8 +74,8 @@ for (gene in rownames(rna_mtx)) {
 
     # Get peaks centered within 500kb of focal gene TSS
     focal_peaks = peaks[(peaks$chr == focal_gene_coords$chr) & 
-                        (peaks$center < focal_gene_coords$tss_plus_500kb) &
-                        (peaks$center > focal_gene_coords$tss_minus_500kb),]$peak
+                        (peaks$center < focal_gene_coords$tss_plus) &
+                        (peaks$center > focal_gene_coords$tss_minus),]$peak
     
     if (length(focal_peaks) > 1) {
         # Define candidate links to the focal gene
